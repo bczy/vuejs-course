@@ -1,0 +1,185 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, shrink-to-fit=no"
+		/>
+		<meta name="description" content="" />
+		<meta name="author" content="" />
+		<title>VueJS Course</title>
+		<!-- Favicon-->
+		<link rel="icon" type="image/x-icon" href="assets/img/favicon.ico" />
+		<!-- Font Awesome icons (free version)-->
+		<script
+			src="https://use.fontawesome.com/releases/v5.13.0/js/all.js"
+			crossorigin="anonymous"
+		></script>
+		<!-- Google fonts-->
+		<link
+			href="https://fonts.googleapis.com/css?family=Montserrat:400,700"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic"
+			rel="stylesheet"
+			type="text/css"
+        />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+		<!-- Core theme CSS (includes Bootstrap)-->
+		<link href="css/styles.css" rel="stylesheet" />
+	</head>
+	<body id="page-top">
+        <div id="app">
+            <!-- Navigation-->
+            <nav 
+                class="navbar navbar-expand-lg bg-secondary text-uppercase fixed-top"
+                id="mainNav"
+            >
+        
+            <a class="navbar-brand js-scroll-trigger" href="#page-top">VueJS example</a>
+            <button class="navbar-toggler navbar-toggler-right text-uppercase font-weight-bold bg-primary text-white rounded" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                Menu
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item mx-0 mx-lg-1">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#coats">
+                                Coats
+                            </a>
+                    </li>
+                    <li class="nav-item mx-0 mx-lg-1">
+                        <div class="ml-2 d-flex">
+                            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger">
+                                Cart: {{getCartText}}
+                            </a>
+                            <button class="btn btn-primary btn-sm dropdown-toggle"
+                            data-toggle="dropdown" id="cartDropDown"></button>
+                        </div>
+                        <div aria-labelledby="cartDropdown" class="dropdown-menu dropdown-menu-right">
+                            <div v-for="(item,index) in cart" :key="`c${index}`">
+                                <div class="dropdown-item-text text-nowrap text-right">
+                                    <span class="badge badge-pill badge-warning align-text-top mr-1">{{item.price | currency}}</span>
+                                    <b>{{item.name}}</b>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                
+            </div>
+            </nav>
+            <header class="masthead bg-primary text-white text-center">
+                <div class="container d-flex align-items-center flex-column">
+                    <!-- Masthead Avatar Image-->
+                    <img class="masthead-avatar mb-5" :src="site.logo" :alt="site.name" />
+                    <!-- Masthead Heading-->
+                    <h1 class="masthead-heading text-uppercase mb-0">{{ site.name }}</h1>
+                    <!-- Icon Divider-->
+                    <div class="divider-custom divider-light">
+                        <div class="divider-custom-line"></div>
+                        <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                        <div class="divider-custom-line"></div>
+                    </div>
+                    <!-- Masthead Subheading-->
+                    <p class="masthead-subheading font-weight-light mb-0">
+                        {{ site.description }}
+                    </p>
+                </div>
+            </header>
+
+            <!-- Portfolio Section-->
+            <section class="page-section portfolio" id="coats">
+                    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Coats</h2>
+
+            <!-- Icon Divider-->
+            <div class="divider-custom">
+                <div class="divider-custom-line"></div>
+                <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+                <div class="divider-custom-line"></div>
+            </div>
+
+            <section class="page-section portfolio mt-1" >
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <form id="contactForm" name="sentMessage" novalidate="novalidate">
+                            <div class="control-group">
+                                <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                                    <label>Maximum price</label>
+                                    <input type="text" class="form-control" placeholder="Maximum price" 
+                                        v-model="maxPrice" />
+                                    <input type="range" min="1" max="999" class="form-control" 
+                                            v-model="maxPrice" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Icon Divider-->
+                <div class="divider-custom">
+                </div>
+                <transition name="fade">
+                    
+                </transition>
+                <transition-group name="fade" tag="div"
+                    enter-active-class="animated fadeInRight"
+                    leave-active-class="animated fadeOutLeft">
+                    <div class="portfolio-item mx-auto col-md-6 col-lg-4 mb-5"
+                        v-for="(product, index) in products" :key="`p${index}`"
+                        v-if="!Number(maxPrice) || product.price<=Number(maxPrice) ">
+                        <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
+                            <div class="portfolio-item-caption-content text-center text-white">
+                                <p>{{product.name}}</p>
+                                <b>{{product.price | currency}}</b>
+                                <p style="text-overflow: ellipsis; max-width:15em; white-space: nowrap;
+                                overflow: hidden;">{{product.description}}</p>
+                                <button class="btn btn-secondary btn-xl" 
+                                    @click="addItem(product)">+</button>
+                            </div>
+                        </div>
+                        <img class="img-fluid" :src="product.image" alt="" />
+                    </transition-group>
+                </div>
+            </section>
+            <!-- About Section-->
+            <section
+                class="page-section bg-primary text-white mb-0"
+                id="about"
+            ></section>
+            <!-- Contact Section-->
+            <section class="page-section" id="contact"></section>
+            <!-- Footer-->
+            <footer class="footer text-center"></footer>
+            <!-- Copyright Section-->
+            <div class="copyright py-4 text-center text-white"></div>
+            <!-- Scroll to Top Button (Only visible on small and extra-small screen sizes)-->
+            <div class="scroll-to-top d-lg-none position-fixed">
+                <a
+                    class="js-scroll-trigger d-block text-center text-white rounded"
+                    href="#page-top"
+                    ><i class="fa fa-chevron-up"></i
+                ></a>
+        </div>
+        </div>
+		<!-- Portfolio Modals-->
+		<!-- Portfolio Modal 1-->
+		<!-- Bootstrap core JS-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js"></script>
+		<!-- Third party plugin JS-->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+		<!-- Contact form JS-->
+		<script src="assets/mail/jqBootstrapValidation.js"></script>
+		<script src="assets/mail/contact_me.js"></script>
+		<!-- Core theme JS-->
+		<script src="js/scripts.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="js/main.js"></script>
+	</body>
+</html>
