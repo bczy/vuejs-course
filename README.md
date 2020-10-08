@@ -2,5 +2,5 @@
 VueJs tutorial result
 
 TODO: 
-# fix cart dropdown
-# use templates
+* fix cart dropdown
+* use templates
